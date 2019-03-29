@@ -5,7 +5,7 @@ namespace Domain.Customer
 {
     public class Alarm: EntityWithCompositeIdentity
     {
-        public override IEnumerable<Identity> GetCompositeIds()
+        public override IEnumerable<object> GetCompositeComponents()
         {
             throw new System.NotImplementedException();
         }

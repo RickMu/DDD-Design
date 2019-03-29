@@ -2,18 +2,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Domain.Common.Domain;
+using Newtonsoft.Json;
 
 namespace Domain
 {
     public class ProductAttribute: ValueObject
     {
         public string Name { get; }
-        public IEnumerable<ProductAttributeOption> AttributeOptions { get; }
+        public IList<ProductAttributeOption> AttributeOptions { get; }
 
-        public ProductAttribute(string name, IEnumerable<ProductAttributeOption> attributeOptions)
+        public ProductAttribute(string name, IList<ProductAttributeOption> attributeOptions)
         {
+            AssertionConcerns.AssertArgumentNotEmpty(name,"ProductAttribute Name cannot be Empty");
             Name = name;
-            AttributeOptions = attributeOptions;
+            AttributeOptions = attributeOptions ?? new List<ProductAttributeOption>();
         }
 
         public bool isValidOption(ProductAttributeOption option)
@@ -24,12 +26,11 @@ namespace Domain
         public override IEnumerable<object> GetMembersForEqualityComparision()
         {
             yield return Name;
-
-            foreach (var option in AttributeOptions)
-            {
-                yield return option.GetMembersForEqualityComparision();
-            }
         }
-         
+
+        public override string ToString()
+        {
+            return $"AttributeName: {Name}, Value {JsonConvert.SerializeObject(AttributeOptions.Select(x => x.Value))}";
+        }
     }
 }

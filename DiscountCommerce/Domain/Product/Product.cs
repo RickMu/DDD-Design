@@ -7,24 +7,26 @@ namespace Domain.Product
 {
     public class Product: Entity
     {
-        public IEnumerable<ProductAttribute> Attributes { get; }
+        public IList<ProductAttribute> Attributes { get; }
         
         public IList<ProductSell> ProductSells { get; }
         
         public Decimal BasePrice { get; }
 
-        public Product(IEnumerable<ProductAttribute> attributes, Decimal basePrice)
-            : this(attributes, basePrice, new List<ProductSell>())
-        {
-        }
         
-        public Product(IEnumerable<ProductAttribute> attributes, Decimal basePrice, IList<ProductSell> productSells)
+        public Product(Decimal basePrice, IList<ProductAttribute> attributes, IList<ProductSell> productSells)
         {
-            Attributes = attributes;
+            AssertionConcerns.AssertArgumentRange(basePrice, 0, Decimal.MaxValue, "Product Base Price Cannot be Negative");
             BasePrice = basePrice;
-            ProductSells = productSells;
+            Attributes = attributes ?? new List<ProductAttribute>();
+            ProductSells = productSells ?? new List<ProductSell>();
         }
 
+        public void AddAttribute(ProductAttribute productAttribute)
+        {
+            AssertionConcerns.AssertArgumentNotIn(productAttribute, Attributes, $"Product Attribute Already Exists: {productAttribute}");
+            Attributes.Add(productAttribute);
+        }
         public void AddProductSell(ProductSell productSell)
         {
             ProductSells.Add(productSell);

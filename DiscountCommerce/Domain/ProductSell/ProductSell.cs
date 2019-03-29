@@ -21,10 +21,9 @@ namespace Domain
         
         public void AddProductCombination(ProductCombinationDiscount combinationDiscount)
         {
-            if (_combinationDiscounts.Contains(combinationDiscount))
-            {
-                throw new DomainException($"Product Combination already exists: {_combinationDiscounts}");
-            }
+            AssertionConcerns.AssertArugmentNotNull(combinationDiscount, "Product Combination is cannot be null");
+            AssertionConcerns.AssertArgumentNotIn(combinationDiscount, _combinationDiscounts, 
+                $"Product Combination already exists: {_combinationDiscounts}");
             
             _combinationDiscounts.Add(combinationDiscount);
             CheckAndSetReleasable(combinationDiscount);
