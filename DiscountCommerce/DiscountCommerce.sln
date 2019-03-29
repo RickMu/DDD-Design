@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ProductSell", "ProductSell", "{06F05D79-160B-43C1-8EC2-ADDD5E98E4A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{C2C82198-A6FE-4A0E-9563-DC8DA8F21553}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "ProductSell\Application\Application.csproj", "{EEA64F33-2D4C-4712-8E88-0F5E96C7ECD1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation", "ProductSell\Presentation\Presentation.csproj", "{591FB0FA-13F0-4C35-8193-0C5376DCB92E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C2C82198-A6FE-4A0E-9563-DC8DA8F21553}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2C82198-A6FE-4A0E-9563-DC8DA8F21553}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2C82198-A6FE-4A0E-9563-DC8DA8F21553}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2C82198-A6FE-4A0E-9563-DC8DA8F21553}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEA64F33-2D4C-4712-8E88-0F5E96C7ECD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEA64F33-2D4C-4712-8E88-0F5E96C7ECD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEA64F33-2D4C-4712-8E88-0F5E96C7ECD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEA64F33-2D4C-4712-8E88-0F5E96C7ECD1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{591FB0FA-13F0-4C35-8193-0C5376DCB92E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{591FB0FA-13F0-4C35-8193-0C5376DCB92E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{591FB0FA-13F0-4C35-8193-0C5376DCB92E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{591FB0FA-13F0-4C35-8193-0C5376DCB92E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C2C82198-A6FE-4A0E-9563-DC8DA8F21553} = {06F05D79-160B-43C1-8EC2-ADDD5E98E4A4}
+		{EEA64F33-2D4C-4712-8E88-0F5E96C7ECD1} = {06F05D79-160B-43C1-8EC2-ADDD5E98E4A4}
+		{591FB0FA-13F0-4C35-8193-0C5376DCB92E} = {06F05D79-160B-43C1-8EC2-ADDD5E98E4A4}
+	EndGlobalSection
+EndGlobal
