@@ -1,5 +1,9 @@
 services:
   - docker
-script:
+    
+before_install:
   - docker build -f ci-cd/Dockerfile -t discount-commerce:latest .
-  - docker run --rm -v -t "${PWD}:/app" -w "/app" discount-commerce:latest dotnet test DomainTests 
+  - docker run --rm -v -t "${PWD}:/app" -w "/app" discount-commerce:latest dotnet test DomainTests
+    
+script:
+  -  dotnet test DomainTests
