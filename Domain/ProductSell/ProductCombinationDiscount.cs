@@ -17,7 +17,7 @@ namespace Domain
         public ProductCombinationDiscount(IEnumerable<SelectedAttribute> combination, decimal signupDiscount, decimal price)
         {
             Combination = combination;
-            SignupDiscount = SignupDiscount;
+            SignupDiscount = signupDiscount;
             Price = price;
         }
 
