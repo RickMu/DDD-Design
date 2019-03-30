@@ -1,5 +1,4 @@
 services:
   - docker
 script:
-  - docker build -f ci-cd/Dockerfile -t discount-commerce:latest .
-  - docker run --rm -v "${PWD}/:/app" -w "/app" discount-commerce:latest dotnet test test/DomainTests 
+  - make
