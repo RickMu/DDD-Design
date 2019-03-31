@@ -25,7 +25,6 @@ namespace ProductSellsTests
             var newPrice = productPrice.CalculatePrice(count);
 
             newPrice.Should().Be((decimal) expected);
-            newPrice.Should().Be((decimal) productPrice.Discount);
         }
     }
 }
