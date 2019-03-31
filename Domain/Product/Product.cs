@@ -2,8 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Domain.Common.Domain;
+using Domain.ProductSells;
 
-namespace Domain.Product
+namespace Domain.Products
 {
     public class Product: Entity
     {

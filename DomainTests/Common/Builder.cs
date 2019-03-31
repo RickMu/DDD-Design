@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Domain;
-using Domain.Product;
+using Domain.Customer;
+using Domain.Products;
+using Domain.ProductSells;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 
 namespace DomainTests.Common
@@ -42,6 +44,65 @@ namespace DomainTests.Common
             }
 
             return retValue;
+        }
+
+        public static ProductCombination GetProductCombination(string[] names, string[] values)
+        {
+            var selectedAttrbs = GetListSelectedAttrbs(names, values);
+            return new ProductCombination(selectedAttrbs);
+        }
+
+        public static ProductCombination GetBaseCombination()
+        {
+            return new ProductCombination(new[]
+            {
+                new SelectedAttribute("ANY1", ProductAttributeOption.ANY), 
+                new SelectedAttribute("ANY2", ProductAttributeOption.ANY), 
+                new SelectedAttribute("ANY3", ProductAttributeOption.ANY)
+            });
+        }
+        
+        public static IList<ProductCombination> GetListProductCombination(string[][] names, string[][] values)
+        {
+            var namesAndValues = names.Zip(values, (n, v) => new { Names = n, Values = v});
+            var productCombinations = new List<ProductCombination>();
+
+            foreach (var nV in namesAndValues)
+            {
+                productCombinations.Add(GetProductCombination(nV.Names, nV.Values));
+            }
+            return productCombinations;
+        }
+        
+        public static ProductPrice GetProducePrice(decimal discount, decimal price, decimal lowestPrice)
+        {
+            return new ProductPrice(discount, price, lowestPrice);
+        }
+
+        public static SellSignup GetSellSignup(string email)
+        {
+            return new SellSignup(email);
+        }
+
+        public static IList<SellSignup> GetSellSignups(string[] emails)
+        {
+            var list = new List<SellSignup>();
+            foreach (var email in emails)
+            {
+                list.Add(GetSellSignup(email));
+            }
+
+            return list;
+        }
+
+        public static ProductSell GetReleasedProductSell()
+        {
+            var discount = Builder.GetProducePrice(1, 30, 0);
+            var combination = Builder.GetBaseCombination();
+            var productSell = new ProductSell();   
+            productSell.AddProductCombinationAndDiscount(combination,discount);
+            productSell.ReleaseProductSell();
+            return productSell;
         }
     }
 }

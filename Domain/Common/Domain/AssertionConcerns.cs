@@ -37,11 +37,35 @@ namespace Domain.Common.Domain
             }
         }
         
+        public static void AssertArgumentIn<T>(T arg, IList<T> list, string message)
+        {
+            if (!list.Contains(arg))
+            {
+                throw new DomainException(message);
+            }
+        }
+        
         public static void AssertArgumentRange(Decimal arg, Decimal minimum, Decimal maximum, string message)
         {
             if (arg < minimum || arg > maximum)
             {
                 throw new DomainException(message);
+            }
+        }
+
+        public static void AssertArgumentToBeFalse(bool arg, string msg)
+        {
+            if (arg)
+            {
+                throw new DomainException(msg);
+            }
+        }
+        
+        public static void AssertArgumentToBeTrue(bool arg, string msg)
+        {
+            if (!arg)
+            {
+                throw new DomainException(msg);
             }
         }
     }

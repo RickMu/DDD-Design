@@ -5,7 +5,8 @@ namespace Domain
 {
     public class ProductAttributeOption: ValueObject
     {
-        public string Value { get; }
+        public static ProductAttributeOption ANY = new ProductAttributeOption(int.MinValue.ToString());
+        public string Value { get; private set; }
 
         public ProductAttributeOption(string value)
         {

@@ -1,7 +1,6 @@
 using System;
-using Domain;
 using Domain.Common.Exception;
-using Domain.Product;
+using Domain.Products;
 using DomainTests.Common;
 using FluentAssertions;
 using Xunit;
