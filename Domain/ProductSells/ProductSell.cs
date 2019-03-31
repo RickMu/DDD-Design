@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Domain.Common.Domain;
 using Domain.Customer;
+using Domain.ProductSells.Events;
 
 namespace Domain.ProductSells
 {
@@ -69,6 +70,7 @@ namespace Domain.ProductSells
                 Signups[combination] = new List<SellSignup>();
             }
             Signups[combination].Add(interestSignup);
+            AddDomainEvents(new SellSignupCreated(this.Id.Id.ToString(),combination,interestSignup));
         }
 
         public decimal GetCombinationCurrentPrice(ProductCombination combination)

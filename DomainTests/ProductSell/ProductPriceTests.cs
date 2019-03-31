@@ -23,8 +23,7 @@ namespace ProductSellsTests
         public void CalculateProductPrice_Should_ReturnExpected(int count, decimal expected)
         {
             var newPrice = productPrice.CalculatePrice(count);
-
-            newPrice.Should().Be((decimal) expected);
+            newPrice.Should().Be(expected);
         }
     }
 }

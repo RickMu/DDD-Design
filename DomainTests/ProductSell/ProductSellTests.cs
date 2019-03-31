@@ -1,6 +1,7 @@
 using System.Collections.Immutable;
 using System.Linq;
 using Domain.Common.Exception;
+using Domain.ProductSells.Events;
 using Domain.ProductSells;
 using DomainTests.Common;
 using FluentAssertions;
@@ -84,6 +85,9 @@ namespace DomainTests.ProductSellTests
             productSell.RegisterInterest(combination, signup);
             productSell.GetCombinationCurrentPrice(combination)
                 .Should().Be(price.CalculatePrice(1));
+
+            productSell.DomainEvents.Count.Should().Be(1);
+            productSell.DomainEvents.First().Equals(new SellSignupCreated(productSell.Id.Id.ToString(), combination, signup));
         }
         
         [Fact]

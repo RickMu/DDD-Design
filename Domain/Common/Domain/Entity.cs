@@ -1,10 +1,18 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Domain.Common.Domain
 {
     public abstract class IEntity
     {
+        public IList<DomainEvent> DomainEvents;
+
+        protected void AddDomainEvents(DomainEvent domainEvent)
+        {
+            DomainEvents = DomainEvents ?? new List<DomainEvent>();
+            DomainEvents.Add(domainEvent);
+        }
     }
     
     public class Entity: IEntity
@@ -20,6 +28,5 @@ namespace Domain.Common.Domain
         {
             Id = new Identity(id);
         }
-
     }
 }

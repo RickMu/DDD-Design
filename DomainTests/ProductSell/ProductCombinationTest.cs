@@ -20,22 +20,5 @@ namespace ProductSellsTests
             var productCombination = Builder.GetBaseCombination();
             productCombination.IsBaseCombination().Should().Be(true);
         }
-
-        [Fact]
-        public void CannotAdd_DuplicatedSignup()
-        {
-            var productCombination = ProductCombination();
-            productCombination.AddSellSignUp(Builder.GetSellSignup("emailOne"));
-            productCombination.Invoking(x => x.AddSellSignUp(Builder.GetSellSignup("emailOne")))
-                .Should().Throw<DomainException>().Where(x => x.Message.Contains("emailOne"));
-        }
-
-        [Fact]
-        public void CannotAdd_NullSellSignup()
-        {
-            var productCombination = ProductCombination();
-            productCombination.Invoking(x => x.AddSellSignUp(null))
-                .Should().Throw<DomainException>();
-        }
     }
 }
