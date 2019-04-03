@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Domain.Common.Domain;
 
-namespace Domain
+namespace Domain.ProductAttributes
 {
     public class ProductAttributeOption: ValueObject
     {

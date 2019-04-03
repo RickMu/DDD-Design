@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Domain;
 using Domain.Customer;
+using Domain.ProductAttributes;
 using Domain.Products;
 using Domain.ProductSells;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
@@ -16,15 +17,22 @@ namespace DomainTests.Common
             return new ProductAttributeOption(value);
         }
 
-        public static ProductAttribute GetProductAttribute(string name, string[] values)
+        public static ProductAttribute GetProductAttributeWithDiscreteValue(string name, string[] values)
         {
             var options = values.Select(GetProductAttributeOption).ToList();
-            return new ProductAttribute(name, options);
+            return new ProductAttributeWithDiscreteValue(name, options);
         }
 
+        public static ProductAttribute GetProductAttributeWithContinuousValue(string name, double min, double max)
+        {
+            var minOption = new ProductAttributeOption(min.ToString());
+            var maxOption = new ProductAttributeOption(max.ToString());
+            return new ProductAttributeWithContinousValue(name, minOption, maxOption);
+        }
+        
         public static Product GetProduct(Decimal basePrice, string attrbName, string[] values)
         {
-            var attrb = GetProductAttribute(attrbName, values);
+            var attrb = GetProductAttributeWithDiscreteValue(attrbName, values);
             return new Product(basePrice,new List<ProductAttribute> {attrb}, null);
         }
 

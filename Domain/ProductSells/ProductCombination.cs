@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Domain.Common.Domain;
 using Domain.Customer;
+using Domain.ProductAttributes;
 
 namespace Domain.ProductSells
 {

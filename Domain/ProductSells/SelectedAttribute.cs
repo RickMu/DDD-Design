@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Domain.Common.Domain;
+using Domain.ProductAttributes;
 
 namespace Domain.ProductSells
 {

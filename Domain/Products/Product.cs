@@ -2,18 +2,21 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Domain.Common.Domain;
+using Domain.ProductAttributes;
 using Domain.ProductSells;
 
 namespace Domain.Products
 {
     public class Product: Entity
     {
+        
         public IList<ProductAttribute> Attributes { get; }
         
         public IList<ProductSell> ProductSells { get; }
         
         public Decimal BasePrice { get; }
-
+        
+        
         
         public Product(Decimal basePrice, IList<ProductAttribute> attributes, IList<ProductSell> productSells)
         {
@@ -31,27 +34,6 @@ namespace Domain.Products
         public void AddProductSell(ProductSell productSell)
         {
             ProductSells.Add(productSell);
-        }
-
-        public bool AreAttributesCombinationValidChoice(IEnumerable<SelectedAttribute> combination)
-        {
-            var combinationNames = combination.Select(x => x.Name);
-            var attributesNames = Attributes.Select(x => x.Name);
-            if (combinationNames.Except(attributesNames).Any() || attributesNames.Except(combinationNames).Any())
-            {
-                return false;
-            }
-
-            foreach (var attribute in Attributes)
-            {
-                var combinationAttribute = combination.First(x => x.Name == attribute.Name);
-                if (!attribute.isValidOption(combinationAttribute.SelectedOption))
-                {
-                    return false;
-                }
-            }
-            
-            return true;
         }
     }
 }

@@ -44,6 +44,14 @@ namespace Domain.Common.Domain
                 throw new DomainException(message);
             }
         }
+
+        public static void AssertArgumentLength<T>(IList<T> args, int length, string message)
+        {
+            if (args.Count != length)
+            {
+                throw new DomainException(message);
+            }
+        }
         
         public static void AssertArgumentRange(Decimal arg, Decimal minimum, Decimal maximum, string message)
         {
@@ -64,6 +72,14 @@ namespace Domain.Common.Domain
         public static void AssertArgumentToBeTrue(bool arg, string msg)
         {
             if (!arg)
+            {
+                throw new DomainException(msg);
+            }
+        }
+        
+        public static void AssertArgumentCanBeDouble(string arg, string msg)
+        {
+            if (!Double.TryParse(arg, out _))
             {
                 throw new DomainException(msg);
             }

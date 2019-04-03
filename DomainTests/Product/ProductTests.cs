@@ -20,7 +20,7 @@ namespace DomainTests.ProductTests
         [Fact]
         public void CannotAdd_AnotherAttribute_OfSameName()
         {
-            var duplicateAttrb = Builder.GetProductAttribute("firstAttrb", new string[] {"value"});
+            var duplicateAttrb = Builder.GetProductAttributeWithDiscreteValue("firstAttrb", new string[] {"value"});
             var product = this.product();
             
             product.Invoking(x =>
@@ -31,25 +31,9 @@ namespace DomainTests.ProductTests
         [Fact]
         public void AddProductAttribute_Should_Work()
         {
-            var secondAttrb = Builder.GetProductAttribute("secondAttrb", new string[] {"value"});
+            var secondAttrb = Builder.GetProductAttributeWithDiscreteValue("secondAttrb", new string[] {"value"});
             var product = this.product();
             product.AddAttribute(secondAttrb);    
-        }
-
-        [Theory]
-        [InlineData("2", "3", true)]
-        [InlineData("-1","5", false)]
-        public void AreAttributesCombinationValidChoice_Should_ReturnTrue(string firstOption, string secondOption, bool expected)
-        {
-            var product = this.product();
-            var secondAttribute = Builder.GetProductAttribute("secondAttrb", new string[] {"1","2","3"});
-            product.AddAttribute(secondAttribute);
-
-            var attrbCombination = Builder.GetListSelectedAttrbs(new string[] {"firstAttrb", "secondAttrb"},
-                new string[] {firstOption, secondOption});
-
-            product.AreAttributesCombinationValidChoice(attrbCombination)
-                .Should().Be(expected);
         }
     }
 }

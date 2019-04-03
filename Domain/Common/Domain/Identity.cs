@@ -10,5 +10,10 @@ namespace Domain.Common.Domain
         {
             Id = id;
         }
+
+        public override string ToString()
+        {
+            return Id;
+        }
     }
 }
