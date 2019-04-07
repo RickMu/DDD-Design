@@ -52,9 +52,9 @@ namespace DomainTests.ServiceTests
 
             var attrbs = new[]
             {
-                new SelectedAttribute("firstAttrb", ProductAttributeOption.ANY),
-                new SelectedAttribute("secondAttrb", ProductAttributeOption.ANY),
-                new SelectedAttribute("thirdAttrb", ProductAttributeOption.ANY),
+                new SelectedAttribute("firstAttrb", "ANY"),
+                new SelectedAttribute("secondAttrb", "ANY"),
+                new SelectedAttribute("thirdAttrb", "ANY"),
             };
 
             _sut.AreAttributeCombinationBaseCombination(attrbs, product)

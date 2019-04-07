@@ -4,13 +4,12 @@ namespace Domain.ProductAttributes
 {
     public class ProductAttributeWithDiscreteValue: ProductAttribute
     {
-        private IList<ProductAttributeOption> AttributeOptions { get; }
-        public ProductAttributeWithDiscreteValue(string name, IList<ProductAttributeOption> attributeOptions) : base(name)
+        public ProductAttributeWithDiscreteValue(string name, IList<string> attributeOptions) : base(name)
         {
             AttributeOptions = attributeOptions;
         }
 
-        protected override bool checkIsValidOption(ProductAttributeOption option)
+        protected override bool checkIsValidOption(string option)
         {
             return AttributeOptions.Contains(option);
         }

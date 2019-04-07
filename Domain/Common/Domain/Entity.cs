@@ -13,20 +13,30 @@ namespace Domain.Common.Domain
             DomainEvents = DomainEvents ?? new List<DomainEvent>();
             DomainEvents.Add(domainEvent);
         }
+        
+        public abstract string Identity { get; }
     }
     
     public class Entity: IEntity
     {
-        public Identity Id { get; }
-
+         
+        public string Id { get; protected set; }
+        
         public Entity()
         {
-            Id = new Identity(Guid.NewGuid().ToString());
+            Id = Guid.NewGuid().ToString();
         }
 
         public Entity(string id)
         {
-            Id = new Identity(id);
+            Id = id;
         }
+
+        public override string Identity => Id;
+    }
+    
+    public abstract class AggregateEntity: IEntity 
+    {
+        
     }
 }

@@ -12,22 +12,15 @@ namespace DomainTests.Common
 {
     public class Builder
     {
-        public static ProductAttributeOption GetProductAttributeOption(string value)
-        {
-            return new ProductAttributeOption(value);
-        }
 
         public static ProductAttribute GetProductAttributeWithDiscreteValue(string name, string[] values)
         {
-            var options = values.Select(GetProductAttributeOption).ToList();
-            return new ProductAttributeWithDiscreteValue(name, options);
+            return new ProductAttributeWithDiscreteValue(name, values);
         }
 
         public static ProductAttribute GetProductAttributeWithContinuousValue(string name, double min, double max)
         {
-            var minOption = new ProductAttributeOption(min.ToString());
-            var maxOption = new ProductAttributeOption(max.ToString());
-            return new ProductAttributeWithContinousValue(name, minOption, maxOption);
+            return new ProductAttributeWithContinousValue(name, min.ToString(), max.ToString());
         }
         
         public static Product GetProduct(Decimal basePrice, string attrbName, string[] values)
@@ -38,7 +31,7 @@ namespace DomainTests.Common
 
         public static SelectedAttribute GetSelectedAttrbs(string name, string value)
         {
-            return new SelectedAttribute(name, new ProductAttributeOption(value));
+            return new SelectedAttribute(name, value);
         }
 
         public static IList<SelectedAttribute> GetListSelectedAttrbs(string[] names, string[] values)
@@ -64,9 +57,9 @@ namespace DomainTests.Common
         {
             return new ProductCombination(new[]
             {
-                new SelectedAttribute("ANY1", ProductAttributeOption.ANY), 
-                new SelectedAttribute("ANY2", ProductAttributeOption.ANY), 
-                new SelectedAttribute("ANY3", ProductAttributeOption.ANY)
+                new SelectedAttribute("ANY1", "ANY"), 
+                new SelectedAttribute("ANY2", "ANY"), 
+                new SelectedAttribute("ANY3", "ANY")
             });
         }
         
@@ -107,8 +100,9 @@ namespace DomainTests.Common
         {
             var discount = Builder.GetProducePrice(1, 30, 0);
             var combination = Builder.GetBaseCombination();
-            var productSell = new ProductSell();   
-            productSell.AddProductCombinationAndDiscount(combination,discount);
+            combination.SetProductDiscountAndPrice(discount);
+            var productSell = ProductSell.GetProductSell(10);   
+            productSell.AddProductCombination(combination);
             productSell.ReleaseProductSell();
             return productSell;
         }

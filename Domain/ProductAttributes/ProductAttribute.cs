@@ -14,24 +14,26 @@ namespace Domain.ProductAttributes
     public abstract class ProductAttribute: ValueObject
     {
         public string Name { get; }
-
+        
+        public IList<string> AttributeOptions { get; protected set; }
+        
         public ProductAttribute(string name)
         {
             AssertionConcerns.AssertArgumentNotEmpty(name,"ProductAttribute Name cannot be Empty");
             Name = name;
         }
 
-        public bool isValidOption(ProductAttributeOption option)
+        public bool isValidOption(string option)
         {
-            if (option.Equals(ProductAttributeOption.ANY)) return true;
+            if (option.Equals("ANY")) return true;
             return checkIsValidOption(option);
         }
         
-        protected abstract bool checkIsValidOption(ProductAttributeOption option);
+        protected abstract bool checkIsValidOption(string option);
 
-        public bool isBaseAttribute(ProductAttributeOption option)
+        public bool isBaseAttribute(string option)
         {
-            return option.Equals(ProductAttributeOption.ANY);
+            return option.Equals("ANY");
         }
 
         public abstract AttributeType GetAttributeType();

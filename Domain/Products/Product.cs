@@ -16,8 +16,6 @@ namespace Domain.Products
         
         public Decimal BasePrice { get; }
         
-        
-        
         public Product(Decimal basePrice, IList<ProductAttribute> attributes, IList<ProductSell> productSells)
         {
             AssertionConcerns.AssertArgumentRange(basePrice, 0, Decimal.MaxValue, "Product Base Price Cannot be Negative");

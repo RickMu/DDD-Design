@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using Domain.ProductAttributes;
 using MediatR;
 
 namespace Application.ProductHandlers

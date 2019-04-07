@@ -3,11 +3,8 @@ using Domain.Common.Domain;
 
 namespace Domain.Customer
 {
-    public class Alarm: EntityWithCompositeIdentity
+    public class Alarm: AggregateEntity
     {
-        public override IEnumerable<object> GetCompositeComponents()
-        {
-            throw new System.NotImplementedException();
-        }
+        public override string Identity { get; }
     }
 }

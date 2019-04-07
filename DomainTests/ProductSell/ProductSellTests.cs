@@ -21,55 +21,64 @@ namespace DomainTests.ProductSellTests
         {
             var combination = Builder.GetProductCombination(new[] {"name1", "name2"}, new[] {"value1", "value2"});
             var discount = Builder.GetProducePrice(1, 30, 0);
-            var productSell = new ProductSell();
-            productSell.AddProductCombinationAndDiscount(combination, discount);
+            combination.SetProductDiscountAndPrice(discount);
+            var productSell = ProductSell.GetProductSell(10);
+            productSell.AddProductCombination(combination);
 
-            productSell.Invoking(x => x.AddProductCombinationAndDiscount(combination, null))
+            productSell.Invoking(x => x.AddProductCombination(combination))
                 .Should().Throw<DomainException>().Where(e => e.Message.Contains(ProductSell.Reasons.DUPLICATE));
         }
 
         [Fact]
         public void Cannot_AddAdditionalProductCombination_OnceReleased()
         {
-            var productSell = new ProductSell(isReleased: true);
+            var productSell = ProductSell.GetProductSell(10,isReleased: true);
             var discount = Builder.GetProducePrice(1, 30, 0);
             var combination = Builder.GetProductCombination(new[] {"name1", "name2"}, new[] {"value1", "value2"});
-
-            productSell.Invoking(x => x.AddProductCombinationAndDiscount(combination, discount))
+            
+            combination.SetProductDiscountAndPrice(discount);
+            
+            productSell.Invoking(x => x.AddProductCombination(combination))
                 .Should().Throw<DomainException>().Where(e => e.Message.Contains(ProductSell.Reasons.RELEASED)); 
         }
 
         [Fact]
         public void NonBaseCombination_CannotSetProductSellState_Releasable()
         {
-            var productSell = new ProductSell();
+            var productSell = ProductSell.GetProductSell(10);
             var discount = Builder.GetProducePrice(1, 30, 0);
             var combination = Builder.GetProductCombination(new[] {"name1", "name2"}, new[] {"value1", "value2"});
-            productSell.AddProductCombinationAndDiscount(combination,discount);
+            
+            combination.SetProductDiscountAndPrice(discount);
+            
+            productSell.AddProductCombination(combination);
             productSell.IsReleasable.Should().BeFalse();
         }
         
         [Fact]
         public void BaseCombination_WillSetProductSellState_Releasable()
         {
-            var productSell = new ProductSell();
+            var productSell = ProductSell.GetProductSell(10);
             var discount = Builder.GetProducePrice(1, 30, 0);
             var combination = Builder.GetBaseCombination();
-            productSell.AddProductCombinationAndDiscount(combination,discount);
+            
+            combination.SetProductDiscountAndPrice(discount);
+            
+            productSell.AddProductCombination(combination);
             productSell.IsReleasable.Should().BeTrue();
         }
 
         [Fact]
         public void UnreleasableProductSell_CannotBeReleased()
         {
-            var productSell = new ProductSell();
+            var productSell = ProductSell.GetProductSell(10,isReleasable: false);
             productSell.Invoking(x => x.ReleaseProductSell())
                 .Should().Throw<DomainException>().Where(e => e.Message.Contains(ProductSell.Reasons.NOT_RELEASABLE));
         }
         [Fact]
         public void ReleasableProductSell_CanBeReleased()
         {
-            var productSell = new ProductSell(isReleasable: true);
+            var productSell = ProductSell.GetProductSell(10,isReleasable: true);
             productSell.ReleaseProductSell();
             productSell.IsReleased.Should().BeTrue();
         }
@@ -78,23 +87,23 @@ namespace DomainTests.ProductSellTests
         public void Signup_Should_WorkAsExpected()
         {
             var productSell = Builder.GetReleasedProductSell();
-            var combination = productSell.CombinationAndPrice.Keys.First();
-            var price = productSell.CombinationAndPrice[combination];
+            var combination = productSell.Combinations.First();
+            var price = combination.ProductPrice;
             var signup = Builder.GetSellSignup("email1");
             
             productSell.RegisterInterest(combination, signup);
-            productSell.GetCombinationCurrentPrice(combination)
+            combination.GetCurrentPrice()
                 .Should().Be(price.CalculatePrice(1));
 
             productSell.DomainEvents.Count.Should().Be(1);
-            productSell.DomainEvents.First().Equals(new SellSignupCreated(productSell.Id.Id.ToString(), combination, signup));
+            productSell.DomainEvents.First().Equals(new SellSignupCreated(productSell.Id, combination, signup));
         }
         
         [Fact]
         public void CannotAdd_DuplicateSignups()
         {
             var productSell = Builder.GetReleasedProductSell();
-            var combination = productSell.CombinationAndPrice.Keys.First();
+            var combination = productSell.Combinations.First();
             var signup = Builder.GetSellSignup("email1");
             productSell.RegisterInterest(combination, signup);
             productSell.Invoking(x => x.RegisterInterest(combination, signup))

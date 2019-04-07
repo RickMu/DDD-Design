@@ -14,6 +14,14 @@ namespace Domain.Common.Domain
             }
         }
 
+        public static void AssertArgumentIs<T>(T arg, T value, string message)
+        {
+            if (!arg.Equals(value))
+            {
+                throw new DomainException(message);
+            }
+        }
+
         public static void AssertStringNotEmpty(string str, string message)
         {
             if (string.IsNullOrWhiteSpace(str))

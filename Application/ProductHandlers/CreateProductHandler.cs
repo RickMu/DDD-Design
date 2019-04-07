@@ -27,7 +27,7 @@ namespace Application.ProductHandlers
             var product = new Product(request.BasePrice, productAttributes, null);
             _repository.Add(product);
             await _repository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
-            return product.Id.Id;
+            return product.Id;
         }
     }
 }

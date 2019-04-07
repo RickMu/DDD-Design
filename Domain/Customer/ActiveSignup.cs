@@ -4,13 +4,10 @@ using Domain.ProductSells;
 
 namespace Domain.Customer
 {
-    public class ActiveSignup: EntityWithCompositeIdentity
+    public class ActiveSignup: AggregateEntity
     {
         public string ProductSellId;
         public ProductCombination combinationSignedUpFor;
-        public override IEnumerable<object> GetCompositeComponents()
-        {
-            yield return ProductSellId;
-        }
+        public override string Identity { get; }
     }
 }
