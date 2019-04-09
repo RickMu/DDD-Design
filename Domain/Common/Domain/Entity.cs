@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
 namespace Domain.Common.Domain
 {
     public abstract class IEntity
     {
-        public IList<DomainEvent> DomainEvents;
+        [NotMapped]
+        public IList<DomainEvent> DomainEvents { get; private set; }
 
         protected void AddDomainEvents(DomainEvent domainEvent)
         {
@@ -14,13 +16,13 @@ namespace Domain.Common.Domain
             DomainEvents.Add(domainEvent);
         }
         
-        public abstract string Identity { get; }
+        public virtual string Identity { get; protected set; }
     }
     
     public class Entity: IEntity
     {
          
-        public string Id { get; protected set; }
+        private string Id { get; set; }
         
         public Entity()
         {
@@ -37,6 +39,5 @@ namespace Domain.Common.Domain
     
     public abstract class AggregateEntity: IEntity 
     {
-        
     }
 }

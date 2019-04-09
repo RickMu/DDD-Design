@@ -16,7 +16,7 @@ namespace Infrastructure.EFConfiguration
 
             builder.Property(e => e.Identity).HasColumnName("ProductCombinationId").ValueGeneratedNever();
             //Composite Key
-            builder.HasKey(ProductSellConfiguration.DBInfo.PK_Name, DBInfo.PARTIAL_KEY_NAME);
+            builder.HasKey(ProductSellConfiguration.DBInfo.PK_Name, "Identity");
             
             builder.Property(e => e.SignupCount).HasColumnName("SignupCount");
 
@@ -29,7 +29,12 @@ namespace Infrastructure.EFConfiguration
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.OwnsOne(e => e.ProductPrice);
+            builder.OwnsOne(e => e.ProductPrice, p =>
+            {
+                p.Property(e => e.Price).HasColumnType("decimal(8,4)");
+                p.Property(e => e.LowestPrice).HasColumnType("decimal(8,4)");
+                p.Property(e => e.Discount).HasColumnType("decimal(8,4)");
+            });
         }
     }
 }

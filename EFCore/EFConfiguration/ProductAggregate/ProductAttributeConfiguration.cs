@@ -6,14 +6,18 @@ namespace Infrastructure.EFConfiguration
 {
     public class ProductAttributeConfiguration: IEntityTypeConfiguration<ProductAttribute>
     {
+        public class DBInfo
+        {
+           public const string PARTIAL_KEY_NAME = "Name";
+        }
         public void Configure(EntityTypeBuilder<ProductAttribute> builder)
         {
-            builder.Property(e => e.Name).HasColumnName("AttributeName").HasColumnName("varchar(10)").IsRequired();
+            builder.Property(e => e.Name).HasColumnName(DBInfo.PARTIAL_KEY_NAME).IsRequired();
 
-            builder.HasKey(ProductConfiguration.DBInfo.PK_Name, "AttributeName");
+            builder.HasKey(ProductConfiguration.DBInfo.PK_Name, DBInfo.PARTIAL_KEY_NAME);
             builder.HasMany(e => e.AttributeOptions)
                 .WithOne()
-                .HasForeignKey(ProductConfiguration.DBInfo.PK_Name, "AttributeName")
+                .HasForeignKey(ProductConfiguration.DBInfo.PK_Name, DBInfo.PARTIAL_KEY_NAME)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
         }

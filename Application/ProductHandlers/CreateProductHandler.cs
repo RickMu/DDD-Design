@@ -23,11 +23,11 @@ namespace Application.ProductHandlers
         public async Task<string> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
             var productAttributes = request.attributes.Select(x =>
-                _factory.Create(x.Name, (AttributeType)x.AttributeType, x.AttributeOptions)).ToList();
+                _factory.Create(x.Name, (AttributeType)x.AttributeType, x.AttributeOptions.Select(s => new AttributeOption(s)).ToArray())).ToList();
             var product = new Product(request.BasePrice, productAttributes, null);
             _repository.Add(product);
             await _repository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
-            return product.Id;
+            return product.Identity;
         }
     }
 }

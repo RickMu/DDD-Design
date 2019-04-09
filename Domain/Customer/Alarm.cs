@@ -5,6 +5,5 @@ namespace Domain.Customer
 {
     public class Alarm: AggregateEntity
     {
-        public override string Identity { get; }
     }
 }

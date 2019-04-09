@@ -8,6 +8,5 @@ namespace Domain.Customer
     {
         public string ProductSellId;
         public ProductCombination combinationSignedUpFor;
-        public override string Identity { get; }
     }
 }

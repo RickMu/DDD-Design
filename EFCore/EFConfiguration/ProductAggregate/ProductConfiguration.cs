@@ -14,23 +14,27 @@ namespace Infrastructure.EFConfiguration
         }
         public void Configure(EntityTypeBuilder<Product> builder)
         {
+            
             //Ignore DomainEvents
             builder.Ignore(e => e.DomainEvents);
+            
+            builder.ToTable("Products");
+            
             //PrimaryKey never generated
             builder.HasKey(e => e.Identity);
             builder.Property(e => e.Identity).HasColumnName("ProductId").ValueGeneratedNever();
 
-            builder.Property(e => e.BasePrice).HasColumnName("BasePrice").HasColumnType("decimal(10,4)");
+            builder.Property(e => e.BasePrice).HasColumnName("BasePrice").HasColumnType("decimal(8,4)");
 
             builder.HasMany(e => e.Attributes)
                 .WithOne()
                 .HasForeignKey(DBInfo.PK_Name)
                 .IsRequired();
             
-            builder.HasMany(e => e.ProductSells)
-                .WithOne()
-                .HasForeignKey(DBInfo.PK_Name)
-                .IsRequired();
+//            builder.HasMany(e => e.ProductSells)
+//                .WithOne()
+//                .HasForeignKey(DBInfo.PK_Name)
+//                .IsRequired();
         }
     }
 }
