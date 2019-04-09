@@ -1,5 +1,6 @@
 using System;
 using Domain.Common.Domain;
+using Domain.ProductAttributes.Factory;
 
 namespace Domain.ProductAttributes
 {
@@ -10,32 +11,33 @@ namespace Domain.ProductAttributes
     }
     public class ProductAttributeWithContinousValue: ProductAttribute
     {
-        public double MinValue => Double.Parse(AttributeOptions[0]);
+        public double MinValue => Double.Parse(AttributeOptions[0].Value);
 
-        public double MaxValue => Double.Parse(AttributeOptions[1]);
+        public double MaxValue => Double.Parse(AttributeOptions[1].Value);
 
-        public ProductAttributeWithContinousValue(string name, string valueIsAny) : base(name)
+        private ProductAttributeWithContinousValue() {}
+        public ProductAttributeWithContinousValue(string name, AttributeOption valueIsAny) : base(name)
         {
-            AssertionConcerns.AssertArgumentIs(valueIsAny, "ANY", 
+            AssertionConcerns.AssertArgumentIs<AttributeOption>(valueIsAny, AttributeOption.AnyValue, 
                 $"{Reasons.UNEXPECTED_VALUE}: Value can only be ANY cannot be anything else");
             AttributeOptions = new[] {valueIsAny};
         }
-        public ProductAttributeWithContinousValue(string name,string minValue, string maxValue ) : base(name)
+        public ProductAttributeWithContinousValue(string name,AttributeOption minValue, AttributeOption maxValue ) : base(name)
         {
-            AssertionConcerns.AssertArgumentCanBeDouble(minValue,
+            AssertionConcerns.AssertArgumentCanBeDouble(minValue.Value,
                 $"{Reasons.UNPARSEABLE}: Value is not parseable as double {minValue}");
-            AssertionConcerns.AssertArgumentCanBeDouble(maxValue,
+            AssertionConcerns.AssertArgumentCanBeDouble(maxValue.Value,
                 $"{Reasons.UNPARSEABLE}: Value is not parseable as double {maxValue}");
             AttributeOptions = new[] {minValue, maxValue};
         }
 
-        protected override bool checkIsValidOption(string option)
+        protected override bool checkIsValidOption(AttributeOption option)
         {
             
-            AssertionConcerns.AssertArgumentCanBeDouble(option,
+            AssertionConcerns.AssertArgumentCanBeDouble(option.Value,
                 $"{Reasons.UNPARSEABLE}: Value is not parseable as double {option}");
            
-            var val = Double.Parse(option);
+            var val = Double.Parse(option.Value);
             return val >= MinValue && val <= MaxValue;
         }
 

@@ -12,7 +12,7 @@ namespace Domain.ProductAttributes.Factory
     }
     public class ProductAttributeFactory: IProductAttributeFactory
     {
-        public ProductAttribute Create(string name, AttributeType type, string[] values)
+        public ProductAttribute Create(string name, AttributeType type, AttributeOption[] values)
         {
             switch (type)
             {

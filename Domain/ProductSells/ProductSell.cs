@@ -32,6 +32,9 @@ namespace Domain.ProductSells
         public bool IsReleasable { get; private set; }
         public bool IsReleased { get; private set; }
 
+        private ProductSell()
+        {}
+        
         public ProductSell(
             (DateTime StartDateTime, DateTime EndDateTime) activeDateTime,
             IList<ProductCombination> combinations = null, 
@@ -92,7 +95,7 @@ namespace Domain.ProductSells
             
             Signups.Add(interestSignup);
             combination.AddSignupCount();
-            AddDomainEvents(new SellSignupCreated(Id,combination,interestSignup));
+            AddDomainEvents(new SellSignupCreated(Identity,combination,interestSignup));
         }
     }
 }

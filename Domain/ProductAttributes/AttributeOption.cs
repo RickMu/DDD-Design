@@ -15,9 +15,9 @@ namespace Domain.ProductAttributes.Factory
             return new AttributeOption(value);
         }
 
-        public AttributeOption(string Value)
+        public AttributeOption(string value)
         {
-            
+            Value = value;
         }
 
         public override IEnumerable<object> GetMembersForEqualityComparision()

@@ -14,9 +14,12 @@ namespace Domain.Products
         
         public IList<ProductSell> ProductSells { get; }
         
-        public Decimal BasePrice { get; }
+        public Decimal BasePrice { get; private set; }
+
+        public Product()
+        {}
         
-        public Product(Decimal basePrice, IList<ProductAttribute> attributes, IList<ProductSell> productSells)
+        public Product(Decimal basePrice, IList<ProductAttribute> attributes, IList<ProductSell> productSells): base()
         {
             AssertionConcerns.AssertArgumentRange(basePrice, 0, Decimal.MaxValue, "Product Base Price Cannot be Negative");
             BasePrice = basePrice;

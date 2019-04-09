@@ -1,15 +1,17 @@
 using System.Collections.Generic;
+using Domain.ProductAttributes.Factory;
 
 namespace Domain.ProductAttributes
 {
     public class ProductAttributeWithDiscreteValue: ProductAttribute
     {
-        public ProductAttributeWithDiscreteValue(string name, IList<string> attributeOptions) : base(name)
+        private ProductAttributeWithDiscreteValue() {}
+        public ProductAttributeWithDiscreteValue(string name, IList<AttributeOption> attributeOptions) : base(name)
         {
             AttributeOptions = attributeOptions;
         }
 
-        protected override bool checkIsValidOption(string option)
+        protected override bool checkIsValidOption(AttributeOption option)
         {
             return AttributeOptions.Contains(option);
         }

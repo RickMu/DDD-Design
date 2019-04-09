@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 using Domain.Common.Domain;
+using Domain.ProductAttributes.Factory;
 
 namespace Domain.ProductAttributes
 {
@@ -13,23 +15,24 @@ namespace Domain.ProductAttributes
     }
     public abstract class ProductAttribute: ValueObject
     {
-        public string Name { get; }
+        public string Name { get; private set; }
         
-        public IList<string> AttributeOptions { get; protected set; }
+        public IList<AttributeOption> AttributeOptions { get; protected set; }
         
+        protected ProductAttribute(){}
         public ProductAttribute(string name)
         {
             AssertionConcerns.AssertArgumentNotEmpty(name,"ProductAttribute Name cannot be Empty");
             Name = name;
         }
 
-        public bool isValidOption(string option)
+        public bool isValidOption(AttributeOption option)
         {
-            if (option.Equals("ANY")) return true;
+            if (option.Equals(AttributeOption.AnyValue)) return true;
             return checkIsValidOption(option);
         }
         
-        protected abstract bool checkIsValidOption(string option);
+        protected abstract bool checkIsValidOption(AttributeOption option);
 
         public bool isBaseAttribute(string option)
         {

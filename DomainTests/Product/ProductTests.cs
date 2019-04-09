@@ -1,5 +1,6 @@
 using System;
 using Domain.Common.Exception;
+using Domain.ProductAttributes.Factory;
 using Domain.Products;
 using DomainTests.Common;
 using FluentAssertions;
@@ -20,7 +21,7 @@ namespace DomainTests.ProductTests
         [Fact]
         public void CannotAdd_AnotherAttribute_OfSameName()
         {
-            var duplicateAttrb = Builder.GetProductAttributeWithDiscreteValue("firstAttrb", new string[] {"value"});
+            var duplicateAttrb = Builder.GetProductAttributeWithDiscreteValue("firstAttrb", new AttributeOption[] {"value"});
             var product = this.product();
             
             product.Invoking(x =>
@@ -31,7 +32,7 @@ namespace DomainTests.ProductTests
         [Fact]
         public void AddProductAttribute_Should_Work()
         {
-            var secondAttrb = Builder.GetProductAttributeWithDiscreteValue("secondAttrb", new string[] {"value"});
+            var secondAttrb = Builder.GetProductAttributeWithDiscreteValue("secondAttrb", new AttributeOption[] {"value"});
             var product = this.product();
             product.AddAttribute(secondAttrb);    
         }

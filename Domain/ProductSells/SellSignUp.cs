@@ -5,7 +5,9 @@ namespace Domain.Customer
 {
     public class SellSignup: ValueObject
     {
-        public string SignupEmail { get; }
+        public string SignupEmail { get; private set; }
+        
+        private SellSignup(){}
 
         public SellSignup(string signupEmail)
         {

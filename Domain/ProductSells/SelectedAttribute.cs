@@ -6,9 +6,12 @@ namespace Domain.ProductSells
 {
     public class SelectedAttribute: ValueObject
     {
-        public string Name{ get;  }
-        public string SelectedOption { get; }
+        public string Name{ get; private set; }
+        public string SelectedOption { get; private set; }
 
+        private SelectedAttribute()
+        {}
+        
         public SelectedAttribute(string name, string selectedOption)
         {
             Name = name;

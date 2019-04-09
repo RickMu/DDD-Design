@@ -11,10 +11,14 @@ namespace Domain.ProductSells
 {
     public class ProductPrice : ValueObject
     {
-        public decimal Discount { get; }
-        public decimal Price { get; }
+        public decimal Discount { get; private set; }
+        public decimal Price { get; private set; }
         
-        public decimal LowestPrice { get; }
+        public decimal LowestPrice { get; private set; }
+
+        private ProductPrice()
+        {
+        }
         
         public ProductPrice(decimal discount, decimal price, decimal lowestPrice)
         {

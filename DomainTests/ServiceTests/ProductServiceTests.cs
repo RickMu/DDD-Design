@@ -1,5 +1,6 @@
 using Domain;
 using Domain.ProductAttributes;
+using Domain.ProductAttributes.Factory;
 using Domain.Products;
 using Domain.ProductSells;
 using Domain.Service;
@@ -26,7 +27,7 @@ namespace DomainTests.ServiceTests
         {
             var product = Builder.GetProduct(1, "firstAttrb", new string[] {"1", "2", "3"});
             
-            var secondAttribute = Builder.GetProductAttributeWithDiscreteValue("secondAttrb", new string[] {"1","2","3"});
+            var secondAttribute = Builder.GetProductAttributeWithDiscreteValue("secondAttrb", new AttributeOption[] {"1","2","3"});
             product.AddAttribute(secondAttribute);
 
             var thirdAttribute = Builder.GetProductAttributeWithContinuousValue("thirdAttrb", 10, 20);
@@ -44,7 +45,7 @@ namespace DomainTests.ServiceTests
         {
             var product = Builder.GetProduct(1, "firstAttrb", new string[] {"1", "2", "3"});
             
-            var secondAttribute = Builder.GetProductAttributeWithDiscreteValue("secondAttrb", new string[] {"1","2","3"});
+            var secondAttribute = Builder.GetProductAttributeWithDiscreteValue("secondAttrb", new AttributeOption[] {"1","2","3"});
             product.AddAttribute(secondAttribute);
 
             var thirdAttribute = Builder.GetProductAttributeWithContinuousValue("thirdAttrb", 10, 20);

@@ -96,7 +96,7 @@ namespace DomainTests.ProductSellTests
                 .Should().Be(price.CalculatePrice(1));
 
             productSell.DomainEvents.Count.Should().Be(1);
-            productSell.DomainEvents.First().Equals(new SellSignupCreated(productSell.Id, combination, signup));
+            productSell.DomainEvents.First().Equals(new SellSignupCreated(productSell.Identity, combination, signup));
         }
         
         [Fact]

@@ -4,6 +4,7 @@ using System.Linq;
 using Domain;
 using Domain.Customer;
 using Domain.ProductAttributes;
+using Domain.ProductAttributes.Factory;
 using Domain.Products;
 using Domain.ProductSells;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
@@ -13,7 +14,7 @@ namespace DomainTests.Common
     public class Builder
     {
 
-        public static ProductAttribute GetProductAttributeWithDiscreteValue(string name, string[] values)
+        public static ProductAttribute GetProductAttributeWithDiscreteValue(string name, IList<AttributeOption> values)
         {
             return new ProductAttributeWithDiscreteValue(name, values);
         }
@@ -25,7 +26,7 @@ namespace DomainTests.Common
         
         public static Product GetProduct(Decimal basePrice, string attrbName, string[] values)
         {
-            var attrb = GetProductAttributeWithDiscreteValue(attrbName, values);
+            var attrb = GetProductAttributeWithDiscreteValue(attrbName, values.Select(x => new AttributeOption(x)).ToList());
             return new Product(basePrice,new List<ProductAttribute> {attrb}, null);
         }
 
