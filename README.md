@@ -4,6 +4,7 @@
 - MediatR: IRequest
 #### Application Layer Yet to Add:
 - MediatR: INotification for DomainEvents
+- Explore CQRS
 
 #### Domain Layer:
 Work on domain layer is very much finished, might have some refining to do.
