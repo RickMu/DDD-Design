@@ -2,17 +2,41 @@
 
 namespace Infrastructure.Migrations
 {
-    public partial class ProductSellAggregateCreation : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<decimal>(
-                name: "BasePrice",
-                table: "Products",
-                type: "decimal(8,4)",
-                nullable: false,
-                oldClrType: typeof(decimal),
-                oldType: "decimal(10,4)");
+            migrationBuilder.CreateTable(
+                name: "Products",
+                columns: table => new
+                {
+                    ProductId = table.Column<string>(nullable: false),
+                    BasePrice = table.Column<decimal>(type: "decimal(8,4)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Products", x => x.ProductId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProductAttributes",
+                columns: table => new
+                {
+                    Name = table.Column<string>(nullable: false),
+                    ProductId = table.Column<string>(nullable: false),
+                    AttributeType = table.Column<int>(nullable: false),
+                    Discriminator = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductAttributes", x => new { x.ProductId, x.Name });
+                    table.ForeignKey(
+                        name: "FK_ProductAttributes_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "ProductId",
+                        onDelete: ReferentialAction.Cascade);
+                });
 
             migrationBuilder.CreateTable(
                 name: "ProductSell",
@@ -35,15 +59,34 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AttributeOptions",
+                columns: table => new
+                {
+                    Value = table.Column<string>(nullable: false),
+                    ProductId = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AttributeOptions", x => new { x.ProductId, x.Name, x.Value });
+                    table.ForeignKey(
+                        name: "FK_AttributeOptions_ProductAttributes_ProductId_Name",
+                        columns: x => new { x.ProductId, x.Name },
+                        principalTable: "ProductAttributes",
+                        principalColumns: new[] { "ProductId", "Name" },
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ProductCombinations",
                 columns: table => new
                 {
+                    ProductCombinationId = table.Column<string>(nullable: false),
+                    ProductSellId = table.Column<string>(nullable: false),
                     SignupCount = table.Column<long>(nullable: false),
                     ProductPrice_Discount = table.Column<decimal>(type: "decimal(8,4)", nullable: false),
                     ProductPrice_Price = table.Column<decimal>(type: "decimal(8,4)", nullable: false),
-                    ProductPrice_LowestPrice = table.Column<decimal>(type: "decimal(8,4)", nullable: false),
-                    ProductSellId = table.Column<string>(nullable: false),
-                    ProductCombinationId = table.Column<string>(nullable: false)
+                    ProductPrice_LowestPrice = table.Column<decimal>(type: "decimal(8,4)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -60,8 +103,8 @@ namespace Infrastructure.Migrations
                 name: "SellSignups",
                 columns: table => new
                 {
-                    Email = table.Column<string>(type: "varchar(50)", nullable: false),
-                    ProductSellId = table.Column<string>(nullable: false)
+                    ProductSellId = table.Column<string>(nullable: false),
+                    Email = table.Column<string>(type: "varchar(50)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -78,10 +121,10 @@ namespace Infrastructure.Migrations
                 name: "SelectedAttributes",
                 columns: table => new
                 {
-                    AttributeName = table.Column<string>(nullable: false),
-                    SelectedOption = table.Column<string>(nullable: false),
                     ProductSellId = table.Column<string>(nullable: false),
-                    ProductCombinationId = table.Column<string>(nullable: false)
+                    ProductCombinationId = table.Column<string>(nullable: false),
+                    AttributeName = table.Column<string>(nullable: false),
+                    SelectedOption = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -103,10 +146,16 @@ namespace Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "AttributeOptions");
+
+            migrationBuilder.DropTable(
                 name: "SelectedAttributes");
 
             migrationBuilder.DropTable(
                 name: "SellSignups");
+
+            migrationBuilder.DropTable(
+                name: "ProductAttributes");
 
             migrationBuilder.DropTable(
                 name: "ProductCombinations");
@@ -114,13 +163,8 @@ namespace Infrastructure.Migrations
             migrationBuilder.DropTable(
                 name: "ProductSell");
 
-            migrationBuilder.AlterColumn<decimal>(
-                name: "BasePrice",
-                table: "Products",
-                type: "decimal(10,4)",
-                nullable: false,
-                oldClrType: typeof(decimal),
-                oldType: "decimal(8,4)");
+            migrationBuilder.DropTable(
+                name: "Products");
         }
     }
 }

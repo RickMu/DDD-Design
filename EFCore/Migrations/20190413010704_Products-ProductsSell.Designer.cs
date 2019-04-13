@@ -9,14 +9,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ProductSellContext))]
-    [Migration("20190409115844_ProductSellAggregateCreation")]
-    partial class ProductSellAggregateCreation
+    [Migration("20190413010704_Products-ProductsSell")]
+    partial class ProductsProductsSell
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.8-servicing-32085")
+                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -55,6 +55,9 @@ namespace Infrastructure.Migrations
                     b.Property<string>("Name")
                         .HasColumnName("Name");
 
+                    b.Property<int>("AttributeType")
+                        .HasColumnName("AttributeType");
+
                     b.Property<string>("Discriminator")
                         .IsRequired();
 
@@ -63,20 +66,6 @@ namespace Infrastructure.Migrations
                     b.ToTable("ProductAttributes");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("ProductAttribute");
-                });
-
-            modelBuilder.Entity("Domain.Products.Product", b =>
-                {
-                    b.Property<string>("Identity")
-                        .HasColumnName("ProductId");
-
-                    b.Property<decimal>("BasePrice")
-                        .HasColumnName("BasePrice")
-                        .HasColumnType("decimal(8,4)");
-
-                    b.HasKey("Identity");
-
-                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("Domain.ProductSells.ProductCombination", b =>
@@ -103,11 +92,12 @@ namespace Infrastructure.Migrations
 
                     b.Property<bool>("IsReleased");
 
-                    b.Property<string>("ProductIdentity");
+                    b.Property<string>("ProductId")
+                        .IsRequired();
 
                     b.HasKey("Identity");
 
-                    b.HasIndex("ProductIdentity");
+                    b.HasIndex("ProductId");
 
                     b.ToTable("ProductSell");
                 });
@@ -131,12 +121,23 @@ namespace Infrastructure.Migrations
                     b.ToTable("SelectedAttributes");
                 });
 
+            modelBuilder.Entity("Domain.Products.Product", b =>
+                {
+                    b.Property<string>("Identity")
+                        .HasColumnName("ProductId");
+
+                    b.Property<decimal>("BasePrice")
+                        .HasColumnName("BasePrice")
+                        .HasColumnType("decimal(8,4)");
+
+                    b.HasKey("Identity");
+
+                    b.ToTable("Products");
+                });
+
             modelBuilder.Entity("Domain.ProductAttributes.ProductAttributeWithContinousValue", b =>
                 {
                     b.HasBaseType("Domain.ProductAttributes.ProductAttribute");
-
-
-                    b.ToTable("ProductAttributeWithContinousValue");
 
                     b.HasDiscriminator().HasValue("ProductAttributeWithContinousValue");
                 });
@@ -144,9 +145,6 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.ProductAttributes.ProductAttributeWithDiscreteValue", b =>
                 {
                     b.HasBaseType("Domain.ProductAttributes.ProductAttribute");
-
-
-                    b.ToTable("ProductAttributeWithDiscreteValue");
 
                     b.HasDiscriminator().HasValue("ProductAttributeWithDiscreteValue");
                 });
@@ -164,7 +162,7 @@ namespace Infrastructure.Migrations
                     b.HasOne("Domain.ProductAttributes.ProductAttribute")
                         .WithMany("AttributeOptions")
                         .HasForeignKey("ProductId", "Name")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Domain.ProductAttributes.ProductAttribute", b =>
@@ -197,6 +195,8 @@ namespace Infrastructure.Migrations
                             b1.Property<decimal>("Price")
                                 .HasColumnType("decimal(8,4)");
 
+                            b1.HasKey("ProductCombinationProductSellId", "ProductCombinationIdentity");
+
                             b1.ToTable("ProductCombinations");
 
                             b1.HasOne("Domain.ProductSells.ProductCombination")
@@ -210,7 +210,8 @@ namespace Infrastructure.Migrations
                 {
                     b.HasOne("Domain.Products.Product")
                         .WithMany("ProductSells")
-                        .HasForeignKey("ProductIdentity");
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Domain.ProductSells.SelectedAttribute", b =>

@@ -17,9 +17,12 @@ namespace Domain.ProductAttributes
     {
         public string Name { get; private set; }
         
-        public IList<AttributeOption> AttributeOptions { get; protected set; }
-        
-        protected ProductAttribute(){}
+        public List<AttributeOption> AttributeOptions { get; protected set; }
+
+        protected ProductAttribute()
+        {
+            AttributeOptions = new List<AttributeOption>();
+        }
         public ProductAttribute(string name)
         {
             AssertionConcerns.AssertArgumentNotEmpty(name,"ProductAttribute Name cannot be Empty");
@@ -39,7 +42,7 @@ namespace Domain.ProductAttributes
             return option.Equals("ANY");
         }
 
-        public abstract AttributeType GetAttributeType();
+        public virtual AttributeType AttributeType { get; private set; }
         
         public override IEnumerable<object> GetMembersForEqualityComparision()
         {

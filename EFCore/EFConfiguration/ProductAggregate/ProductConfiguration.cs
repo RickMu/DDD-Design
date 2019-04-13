@@ -1,5 +1,3 @@
-using System.Reflection.Metadata;
-using Domain.Common.Domain;
 using Domain.Products;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -29,12 +27,14 @@ namespace Infrastructure.EFConfiguration
             builder.HasMany(e => e.Attributes)
                 .WithOne()
                 .HasForeignKey(DBInfo.PK_Name)
-                .IsRequired();
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
             
-//            builder.HasMany(e => e.ProductSells)
-//                .WithOne()
-//                .HasForeignKey(DBInfo.PK_Name)
-//                .IsRequired();
+            builder.HasMany(e => e.ProductSells)
+                .WithOne()
+                .HasForeignKey(DBInfo.PK_Name)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

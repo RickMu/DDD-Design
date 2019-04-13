@@ -6,7 +6,7 @@ namespace Domain.ProductAttributes
     public class ProductAttributeWithDiscreteValue: ProductAttribute
     {
         private ProductAttributeWithDiscreteValue() {}
-        public ProductAttributeWithDiscreteValue(string name, IList<AttributeOption> attributeOptions) : base(name)
+        public ProductAttributeWithDiscreteValue(string name,List<AttributeOption> attributeOptions) : base(name)
         {
             AttributeOptions = attributeOptions;
         }
@@ -16,9 +16,6 @@ namespace Domain.ProductAttributes
             return AttributeOptions.Contains(option);
         }
 
-        public override AttributeType GetAttributeType()
-        {
-            return AttributeType.Discrete;
-        }
+        public override AttributeType AttributeType => AttributeType.Continuous;
     }
 }

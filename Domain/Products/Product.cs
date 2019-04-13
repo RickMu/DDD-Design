@@ -10,16 +10,17 @@ namespace Domain.Products
     public class Product: Entity
     {
         
-        public IList<ProductAttribute> Attributes { get; }
+        public List<ProductAttribute> Attributes { get; private set; }
         
-        public IList<ProductSell> ProductSells { get; }
+        public IList<ProductSell> ProductSells { get; private set; }
         
         public Decimal BasePrice { get; private set; }
 
         public Product()
-        {}
+        {
+        }
         
-        public Product(Decimal basePrice, IList<ProductAttribute> attributes, IList<ProductSell> productSells): base()
+        public Product(Decimal basePrice, List<ProductAttribute> attributes, IList<ProductSell> productSells)
         {
             AssertionConcerns.AssertArgumentRange(basePrice, 0, Decimal.MaxValue, "Product Base Price Cannot be Negative");
             BasePrice = basePrice;
@@ -35,6 +36,11 @@ namespace Domain.Products
         public void AddProductSell(ProductSell productSell)
         {
             ProductSells.Add(productSell);
+        }
+
+        public bool CanBeDeleted()
+        {
+            return ProductSells.All(x => !x.IsStillActive());
         }
     }
 }

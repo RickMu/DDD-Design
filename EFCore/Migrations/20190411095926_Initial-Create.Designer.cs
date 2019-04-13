@@ -3,14 +3,16 @@ using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ProductSellContext))]
-    partial class ProductSellContextModelSnapshot : ModelSnapshot
+    [Migration("20190411095926_Initial-Create")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -90,12 +92,11 @@ namespace Infrastructure.Migrations
 
                     b.Property<bool>("IsReleased");
 
-                    b.Property<string>("ProductId")
-                        .IsRequired();
+                    b.Property<string>("ProductIdentity");
 
                     b.HasKey("Identity");
 
-                    b.HasIndex("ProductId");
+                    b.HasIndex("ProductIdentity");
 
                     b.ToTable("ProductSell");
                 });
@@ -160,7 +161,7 @@ namespace Infrastructure.Migrations
                     b.HasOne("Domain.ProductAttributes.ProductAttribute")
                         .WithMany("AttributeOptions")
                         .HasForeignKey("ProductId", "Name")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Domain.ProductAttributes.ProductAttribute", b =>
@@ -208,8 +209,7 @@ namespace Infrastructure.Migrations
                 {
                     b.HasOne("Domain.Products.Product")
                         .WithMany("ProductSells")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("ProductIdentity");
                 });
 
             modelBuilder.Entity("Domain.ProductSells.SelectedAttribute", b =>

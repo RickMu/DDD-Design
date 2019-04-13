@@ -13,16 +13,16 @@ namespace Infrastructure
 {
     public class ProductSellContext: DbContext, IUnitOfWork
     {
-        const string connectionString = "Server=(localdb)\\mssqllocaldb;Database=DiscountCommerce.ProductSellContext;Trusted_Connection=True;";
+//        const string connectionString = "Server=(localdb)\\mssqllocaldb;Database=DiscountCommerce.ProductSellContext;Trusted_Connection=True;";
 
         public ProductSellContext() : base() { }
 
         public ProductSellContext(DbContextOptions<ProductSellContext> options) : base(options) { }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(connectionString);
-        }
+//        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+//        {
+//            optionsBuilder.UseSqlServer(connectionString);
+//        }
         
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductAttribute> ProductAttributes { get; set; }

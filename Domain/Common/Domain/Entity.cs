@@ -20,21 +20,15 @@ namespace Domain.Common.Domain
     }
     
     public class Entity: IEntity
-    {
-         
-        private string Id { get; set; }
-        
-        public Entity()
+    {   
+        private Entity()
         {
-            Id = Guid.NewGuid().ToString();
         }
 
-        public Entity(string id)
+        public Entity(string id=null)
         {
-            Id = id;
+            Identity = string.IsNullOrWhiteSpace(id) ? Guid.NewGuid().ToString() : id;
         }
-
-        public override string Identity => Id;
     }
     
     public abstract class AggregateEntity: IEntity 

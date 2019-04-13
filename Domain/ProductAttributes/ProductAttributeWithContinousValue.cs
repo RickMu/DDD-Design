@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Domain.Common.Domain;
 using Domain.ProductAttributes.Factory;
 
@@ -20,7 +21,7 @@ namespace Domain.ProductAttributes
         {
             AssertionConcerns.AssertArgumentIs<AttributeOption>(valueIsAny, AttributeOption.AnyValue, 
                 $"{Reasons.UNEXPECTED_VALUE}: Value can only be ANY cannot be anything else");
-            AttributeOptions = new[] {valueIsAny};
+            AttributeOptions = new List<AttributeOption>() {valueIsAny};
         }
         public ProductAttributeWithContinousValue(string name,AttributeOption minValue, AttributeOption maxValue ) : base(name)
         {
@@ -28,7 +29,7 @@ namespace Domain.ProductAttributes
                 $"{Reasons.UNPARSEABLE}: Value is not parseable as double {minValue}");
             AssertionConcerns.AssertArgumentCanBeDouble(maxValue.Value,
                 $"{Reasons.UNPARSEABLE}: Value is not parseable as double {maxValue}");
-            AttributeOptions = new[] {minValue, maxValue};
+            AttributeOptions = new List<AttributeOption>() {minValue, maxValue};
         }
 
         protected override bool checkIsValidOption(AttributeOption option)
@@ -41,9 +42,6 @@ namespace Domain.ProductAttributes
             return val >= MinValue && val <= MaxValue;
         }
 
-        public override AttributeType GetAttributeType()
-        {
-            return AttributeType.Continuous;
-        }
+        public override AttributeType AttributeType => AttributeType.Continuous;
     }
 }

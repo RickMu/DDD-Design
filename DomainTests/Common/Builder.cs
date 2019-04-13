@@ -14,7 +14,7 @@ namespace DomainTests.Common
     public class Builder
     {
 
-        public static ProductAttribute GetProductAttributeWithDiscreteValue(string name, IList<AttributeOption> values)
+        public static ProductAttribute GetProductAttributeWithDiscreteValue(string name, List<AttributeOption> values)
         {
             return new ProductAttributeWithDiscreteValue(name, values);
         }

@@ -13,13 +13,14 @@ namespace Infrastructure.EFConfiguration
         public void Configure(EntityTypeBuilder<ProductAttribute> builder)
         {
             builder.Property(e => e.Name).HasColumnName(DBInfo.PARTIAL_KEY_NAME).IsRequired();
+            builder.Property(e => e.AttributeType).HasColumnName("AttributeType").IsRequired();
 
             builder.HasKey(ProductConfiguration.DBInfo.PK_Name, DBInfo.PARTIAL_KEY_NAME);
             builder.HasMany(e => e.AttributeOptions)
                 .WithOne()
                 .HasForeignKey(ProductConfiguration.DBInfo.PK_Name, DBInfo.PARTIAL_KEY_NAME)
                 .IsRequired()
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
