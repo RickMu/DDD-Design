@@ -1,12 +1,11 @@
 # DDD-Example-C#
-================
 ### Includes:
 #### Application Layer:
 - MediatR: IRequest
 #### Application Layer Yet to Add:
 - MediatR: INotification for DomainEvents
 
-##### Domain Layer:
+#### Domain Layer:
 Work on domain layer is very much finished, might have some refining to do.
 
 #### Infrastructure Layer:
