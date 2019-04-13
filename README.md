@@ -1,8 +1,13 @@
 # DDD-Example-C#
 ### Includes:
 #### Application Layer:
-- MediatR: IRequest
+##### ProductHandler:
+- Post https://localhost:5001/api/v1/products
+- Get https://localhost:5001/api/v1/{id:string} 
+- Delete https://localhost:5001/api/v1/{id:string}
+
 #### Application Layer Yet to Add:
+- ProductSellsHandler
 - MediatR: INotification for DomainEvents
 - Explore CQRS
 
