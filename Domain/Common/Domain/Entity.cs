@@ -2,12 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace Domain.Common.Domain
 {
     public abstract class IEntity
     {
         [NotMapped]
+        [JsonIgnore]
         public IList<DomainEvent> DomainEvents { get; private set; }
 
         protected void AddDomainEvents(DomainEvent domainEvent)
