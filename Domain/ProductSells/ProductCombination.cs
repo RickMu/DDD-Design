@@ -1,20 +1,22 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Security.Cryptography.X509Certificates;
 using Domain.Common.Domain;
 using Domain.Customer;
 using Domain.ProductAttributes;
+using Domain.ProductAttributes.Factory;
 
 namespace Domain.ProductSells
 {
     //TODO - NotSure what it's type is supposed to be Entity or ValueObject
-    public class ProductCombination: AggregateEntity
+    public class ProductCombination: Entity
     {
         public class Reasons
         {
             public const string NotNullable = "Not Nullable";
         }
-        public IEnumerable<SelectedAttribute> Combination { get; }
+        public IEnumerable<SelectedAttribute> SelectedAttributes { get; }
         
         public long SignupCount { get; private set; }
         
@@ -22,17 +24,18 @@ namespace Domain.ProductSells
 
         public ProductCombination()
         {
-            Combination = new List<SelectedAttribute>();
+            SelectedAttributes = new List<SelectedAttribute>();
         }
         
-        public ProductCombination(IList<SelectedAttribute> combination)
+        public ProductCombination(ProductPrice productPrice, IList<SelectedAttribute> combination)
         {
-            Combination = combination;
+            ProductPrice = productPrice;
+            SelectedAttributes = combination;
         }
         
         public bool IsBaseCombination()
         {
-            return Combination.All(x => x.SelectedOption.Equals("ANY"));
+            return SelectedAttributes.All(x => x.SelectedOption.Equals(AttributeOption.AnyValue));
         }
 
         public void AddSignupCount()
@@ -55,7 +58,5 @@ namespace Domain.ProductSells
         {
             return ProductPrice.CalculatePrice(SignupCount);
         }
-
-        public override string Identity => Combination.SelectMany(x => $"{x.Name}{x.SelectedOption}").ToString().GetHashCode().ToString();
     }
 }

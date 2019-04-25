@@ -7,7 +7,7 @@ namespace Domain.Common.Repository
     public interface IRepository <TEntity>
         where TEntity: IEntity
     {
-        Task<Product> FindById(string id);
+        Task<TEntity> FindById(string id);
         TEntity Add(TEntity entity);
         void Update(TEntity entity);
         void Remove(TEntity entity);

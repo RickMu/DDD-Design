@@ -3,12 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using Domain.Common.Domain;
 using Domain.ProductAttributes;
+using Domain.Products.Assertions;
 using Domain.ProductSells;
 
 namespace Domain.Products
 {
     public class Product: Entity
     {
+        public class Reasons
+        {
+            public const string InvalidProductCombination = "InvalidProductCombination";
+        }
         
         public List<ProductAttribute> Attributes { get; private set; }
         
@@ -18,6 +23,8 @@ namespace Domain.Products
 
         public Product()
         {
+            Attributes = new List<ProductAttribute>();
+            ProductSells = new List<ProductSell>();
         }
         
         public Product(Decimal basePrice, List<ProductAttribute> attributes, IList<ProductSell> productSells)
@@ -35,6 +42,8 @@ namespace Domain.Products
         }
         public void AddProductSell(ProductSell productSell)
         {
+            //each combination in product sell has to be asserted that it contains all changeable attributes
+            ProductAssertions.AssertProductCombinationsContainAllValidProductAttributes(productSell, this, $"{Product.Reasons.InvalidProductCombination}: invalid selected option or doesn't contain all the required attributes");
             ProductSells.Add(productSell);
         }
 

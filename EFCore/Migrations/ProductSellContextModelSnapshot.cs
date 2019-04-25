@@ -107,14 +107,13 @@ namespace Infrastructure.Migrations
                     b.Property<string>("ProductCombinationId");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnName("AttributeName");
 
                     b.Property<string>("SelectedOption")
                         .IsRequired()
                         .HasColumnName("SelectedOption");
 
-                    b.HasKey("ProductSellId", "ProductCombinationId");
+                    b.HasKey("ProductSellId", "ProductCombinationId", "Name");
 
                     b.ToTable("SelectedAttributes");
                 });
@@ -215,7 +214,7 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.ProductSells.SelectedAttribute", b =>
                 {
                     b.HasOne("Domain.ProductSells.ProductCombination")
-                        .WithMany("Combination")
+                        .WithMany("SelectedAttributes")
                         .HasForeignKey("ProductSellId", "ProductCombinationId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });

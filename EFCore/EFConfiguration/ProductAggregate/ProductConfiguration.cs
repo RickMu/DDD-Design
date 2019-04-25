@@ -20,7 +20,7 @@ namespace Infrastructure.EFConfiguration
             
             //PrimaryKey never generated
             builder.HasKey(e => e.Identity);
-            builder.Property(e => e.Identity).HasColumnName("ProductId").ValueGeneratedNever();
+            builder.Property(e => e.Identity).HasColumnName(DBInfo.PK_Name).ValueGeneratedNever();
 
             builder.Property(e => e.BasePrice).HasColumnName("BasePrice").HasColumnType("decimal(8,4)");
 

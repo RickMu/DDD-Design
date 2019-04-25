@@ -11,11 +11,11 @@ namespace Domain.ProductAttributes
             AttributeOptions = attributeOptions;
         }
 
-        protected override bool checkIsValidOption(AttributeOption option)
+        public override bool checkIsValidOption(AttributeOption option)
         {
             return AttributeOptions.Contains(option);
         }
 
-        public override AttributeType AttributeType => AttributeType.Continuous;
+        public override AttributeType AttributeType => AttributeType.Discrete;
     }
 }

@@ -32,7 +32,7 @@ namespace Domain.ProductAttributes
             AttributeOptions = new List<AttributeOption>() {minValue, maxValue};
         }
 
-        protected override bool checkIsValidOption(AttributeOption option)
+        public override bool checkIsValidOption(AttributeOption option)
         {
             
             AssertionConcerns.AssertArgumentCanBeDouble(option.Value,

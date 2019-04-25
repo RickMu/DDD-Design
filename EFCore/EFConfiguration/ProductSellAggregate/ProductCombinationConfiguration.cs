@@ -20,7 +20,7 @@ namespace Infrastructure.EFConfiguration
             
             builder.Property(e => e.SignupCount).HasColumnName("SignupCount");
 
-            builder.HasMany(e => e.Combination)
+            builder.HasMany(e => e.SelectedAttributes)
                 .WithOne()
                 .HasForeignKey(
                     ProductSellConfiguration.DBInfo.PK_Name,

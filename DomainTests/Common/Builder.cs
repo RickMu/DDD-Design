@@ -51,12 +51,14 @@ namespace DomainTests.Common
         public static ProductCombination GetProductCombination(string[] names, string[] values)
         {
             var selectedAttrbs = GetListSelectedAttrbs(names, values);
-            return new ProductCombination(selectedAttrbs);
+            return new ProductCombination(new ProductPrice(1,(decimal)100.1,(decimal)1.1), selectedAttrbs);
         }
 
         public static ProductCombination GetBaseCombination()
         {
-            return new ProductCombination(new[]
+            return new ProductCombination(
+            new ProductPrice(1,(decimal)100.1,(decimal)1.1),
+            new[]
             {
                 new SelectedAttribute("ANY1", "ANY"), 
                 new SelectedAttribute("ANY2", "ANY"), 

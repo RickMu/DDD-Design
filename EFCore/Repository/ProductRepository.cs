@@ -23,6 +23,9 @@ namespace Infrastructure.Repository
                 .Where(e => e.Identity.Equals(id))
                 .Include(e => e.Attributes)
                 .ThenInclude(attr => attr.AttributeOptions)
+                .Include(e => e.ProductSells)
+                .ThenInclude(productSell => productSell.Combinations)
+                .ThenInclude(productCombination => productCombination.SelectedAttributes)
                 .SingleOrDefaultAsync();
         }
 

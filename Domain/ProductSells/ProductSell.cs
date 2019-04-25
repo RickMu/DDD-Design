@@ -33,7 +33,10 @@ namespace Domain.ProductSells
         public bool IsReleased { get; private set; }
 
         private ProductSell()
-        {}
+        {
+            Combinations = new List<ProductCombination>();
+            Signups = new List<SellSignup>();
+        }
         
         public ProductSell(
             (DateTime StartDateTime, DateTime EndDateTime) activeDateTime,
@@ -56,8 +59,7 @@ namespace Domain.ProductSells
         public void AddProductCombination(ProductCombination productCombination)
         {
             AssertionConcerns.AssertArgumentToBeFalse(IsReleased, $"{Reasons.RELEASED}: Product Sell is already released, cannot add additional combination and discount");
-            AssertionConcerns.AssertArgumentNotIn(productCombination.Identity, Combinations.Select(x => x.Identity).ToList() , $"{Reasons.DUPLICATE}: Cannot add a product combination that already is added");
-
+            
             if (!IsReleasable)
             {
                 IsReleasable = productCombination.IsBaseCombination();

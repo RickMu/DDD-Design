@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Application.ProductHandlers;
 using Domain.ProductAttributes.Factory;
 using Domain.Products;
+using Domain.ProductSells;
 using Infrastructure;
 using Infrastructure.Repository;
 using MediatR;
@@ -37,8 +38,8 @@ namespace WebApi
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.ConfigureHealthCheck(Configuration);
-
-            services.AddMediatR(typeof(CreateProductHandler).GetTypeInfo().Assembly);
+            var assembly = typeof(CreateProductHandler).GetTypeInfo().Assembly;
+            services.AddMediatR(assembly);
             
             services.AddDbContext<ProductSellContext>
                 (options => options.UseSqlServer(Configuration.GetConnectionString("SqlConnectionString"), 
@@ -46,6 +47,7 @@ namespace WebApi
             
             //Repositories
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IProductSellRepository, ProductSellRepository>();
             
             //Factories
             services.AddScoped<IProductAttributeFactory, ProductAttributeFactory>();

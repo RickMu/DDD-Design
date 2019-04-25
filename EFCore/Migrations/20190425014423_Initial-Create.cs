@@ -45,14 +45,14 @@ namespace Infrastructure.Migrations
                     ProductSellId = table.Column<string>(nullable: false),
                     IsReleasable = table.Column<bool>(nullable: false),
                     IsReleased = table.Column<bool>(nullable: false),
-                    ProductIdentity = table.Column<string>(nullable: true)
+                    ProductId = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ProductSell", x => x.ProductSellId);
                     table.ForeignKey(
-                        name: "FK_ProductSell_Products_ProductIdentity",
-                        column: x => x.ProductIdentity,
+                        name: "FK_ProductSell_Products_ProductId",
+                        column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "ProductId",
                         onDelete: ReferentialAction.Restrict);
@@ -74,7 +74,7 @@ namespace Infrastructure.Migrations
                         columns: x => new { x.ProductId, x.Name },
                         principalTable: "ProductAttributes",
                         principalColumns: new[] { "ProductId", "Name" },
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -121,14 +121,14 @@ namespace Infrastructure.Migrations
                 name: "SelectedAttributes",
                 columns: table => new
                 {
+                    AttributeName = table.Column<string>(nullable: false),
                     ProductSellId = table.Column<string>(nullable: false),
                     ProductCombinationId = table.Column<string>(nullable: false),
-                    AttributeName = table.Column<string>(nullable: false),
                     SelectedOption = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SelectedAttributes", x => new { x.ProductSellId, x.ProductCombinationId });
+                    table.PrimaryKey("PK_SelectedAttributes", x => new { x.ProductSellId, x.ProductCombinationId, x.AttributeName });
                     table.ForeignKey(
                         name: "FK_SelectedAttributes_ProductCombinations_ProductSellId_ProductCombinationId",
                         columns: x => new { x.ProductSellId, x.ProductCombinationId },
@@ -138,9 +138,9 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductSell_ProductIdentity",
+                name: "IX_ProductSell_ProductId",
                 table: "ProductSell",
-                column: "ProductIdentity");
+                column: "ProductId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

@@ -35,7 +35,7 @@ namespace Domain.ProductAttributes
             return checkIsValidOption(option);
         }
         
-        protected abstract bool checkIsValidOption(AttributeOption option);
+        public abstract bool checkIsValidOption(AttributeOption option);
 
         public bool isBaseAttribute(string option)
         {

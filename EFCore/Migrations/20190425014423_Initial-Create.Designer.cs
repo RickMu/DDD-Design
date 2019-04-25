@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ProductSellContext))]
-    [Migration("20190413010704_Products-ProductsSell")]
-    partial class ProductsProductsSell
+    [Migration("20190425014423_Initial-Create")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -109,14 +109,13 @@ namespace Infrastructure.Migrations
                     b.Property<string>("ProductCombinationId");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnName("AttributeName");
 
                     b.Property<string>("SelectedOption")
                         .IsRequired()
                         .HasColumnName("SelectedOption");
 
-                    b.HasKey("ProductSellId", "ProductCombinationId");
+                    b.HasKey("ProductSellId", "ProductCombinationId", "Name");
 
                     b.ToTable("SelectedAttributes");
                 });
@@ -217,7 +216,7 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.ProductSells.SelectedAttribute", b =>
                 {
                     b.HasOne("Domain.ProductSells.ProductCombination")
-                        .WithMany("Combination")
+                        .WithMany("SelectedAttributes")
                         .HasForeignKey("ProductSellId", "ProductCombinationId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });

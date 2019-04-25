@@ -8,7 +8,6 @@ namespace Domain.ProductSells
     {
         public string Name{ get; private set; }
         public string SelectedOption { get; private set; }
-
         private SelectedAttribute()
         {}
         
