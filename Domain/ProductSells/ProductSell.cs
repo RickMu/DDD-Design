@@ -18,18 +18,17 @@ namespace Domain.ProductSells
             public const string NOT_NULLABLE = "Not Nullable";
         }
 
-        public static ProductSell GetProductSell(int lastForDays, bool isReleased=false ,bool isReleasable=false)
+        public static ProductSell GetProductSell(int lastForDays, bool isReleased=false)
         {
             var startDate = DateTime.UtcNow;
             var endDate = startDate.AddDays(lastForDays);
-            return new ProductSell((startDate,endDate), isReleased: isReleased,isReleasable: isReleasable);
+            return new ProductSell((startDate,endDate), isReleased: isReleased);
         }
         
         public IList<ProductCombination> Combinations { get; }
         public IList<SellSignup> Signups { get; private set; }
         
         public (DateTime StartDateTime, DateTime EndDateTime) ActiveDateTime { get; }
-        public bool IsReleasable { get; private set; }
         public bool IsReleased { get; private set; }
 
         private ProductSell()
@@ -41,11 +40,9 @@ namespace Domain.ProductSells
         public ProductSell(
             (DateTime StartDateTime, DateTime EndDateTime) activeDateTime,
             IList<ProductCombination> combinations = null, 
-            IList<SellSignup> signups = null,
-            bool isReleasable = false, bool isReleased = false)
+            IList<SellSignup> signups = null, bool isReleased = false)
         {
             ActiveDateTime = activeDateTime;
-            IsReleasable = isReleasable;
             IsReleased = isReleased;
             Combinations = combinations ?? new List<ProductCombination>();
             Signups = signups ?? new List<SellSignup>();
@@ -60,10 +57,6 @@ namespace Domain.ProductSells
         {
             AssertionConcerns.AssertArgumentToBeFalse(IsReleased, $"{Reasons.RELEASED}: Product Sell is already released, cannot add additional combination and discount");
             
-            if (!IsReleasable)
-            {
-                IsReleasable = productCombination.IsBaseCombination();
-            }
             Combinations.Add(productCombination);
         }
 
@@ -78,7 +71,6 @@ namespace Domain.ProductSells
         
         public void ReleaseProductSell()
         {
-            AssertionConcerns.AssertArgumentToBeTrue(IsReleasable, $"{Reasons.NOT_RELEASABLE}: Currently not releasable, Product Sell need to contain a base combination to be releasable");
             if (!IsReleased)
             {
                  IsReleased = true;

@@ -18,7 +18,6 @@ namespace Infrastructure.EFConfiguration
             builder.Property(e => e.Identity).HasColumnName(DBInfo.PK_Name).ValueGeneratedNever();
 
             builder.Property(e => e.IsReleased).IsRequired();
-            builder.Property(e => e.IsReleasable).IsRequired();
 
             builder.HasMany(e => e.Signups)
                 .WithOne()

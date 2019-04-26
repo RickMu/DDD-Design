@@ -7,6 +7,9 @@ using Application.ProductHandlers;
 using Domain.ProductAttributes.Factory;
 using Domain.Products;
 using Domain.ProductSells;
+using Domain.ProductSells.EntityValidator;
+using Domain.ProductSells.Factory;
+using Domain.Service;
 using Infrastructure;
 using Infrastructure.Repository;
 using MediatR;
@@ -49,8 +52,13 @@ namespace WebApi
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IProductSellRepository, ProductSellRepository>();
             
+            
             //Factories
             services.AddScoped<IProductAttributeFactory, ProductAttributeFactory>();
+            services.AddScoped<IProductCombinationFactory, ProductCombinationFactory>();
+            
+            //Validators
+            services.AddScoped<IProductCombinationValidator, ProductCombinationValidator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

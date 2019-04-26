@@ -13,11 +13,11 @@ namespace DomainTests.ServiceTests
 {
     public class ProductServiceTests
     {
-        private ProductService _sut;
+        private ProductCombinationValidator _sut;
 
         public ProductServiceTests()
         {
-            _sut = new ProductService();
+            _sut = new ProductCombinationValidator();
         }
         
         [Theory]
@@ -33,11 +33,13 @@ namespace DomainTests.ServiceTests
 
             var thirdAttribute = Builder.GetProductAttributeWithContinuousValue("thirdAttrb", 10, 20);
             product.AddAttribute(thirdAttribute);
-
-            var attrbCombination = Builder.GetListSelectedAttrbs(new string[] {"firstAttrb", "secondAttrb", "thirdAttrb"},
+            
+            var prodCombination = Builder.GetProductCombination(new string[] {"firstAttrb", "secondAttrb", "thirdAttrb"},
                 new string[] {firstOption, secondOption, thirdOption.ToString()});
 
-            _sut.AreAttributesValidProductChoice(attrbCombination, product)
+            
+            _sut.EnsureCombinationContainsAllAttributes(prodCombination, product);
+            _sut.EnsureCombinationContainsValidOptions(prodCombination, product)
                 .Should().Be(expected);
         }
         
@@ -58,10 +60,11 @@ namespace DomainTests.ServiceTests
                 new SelectedAttribute("secondAttrb", "ANY"),
                 new SelectedAttribute("thirdAttrb", "ANY"),
             };
+            var productCombination = Builder.GetProductCombination(new[] {"firstAttrb", "secondAttrb", "thirdAttrb"},
+                new string[] {"ANY", "ANY", "ANY"});
 
-            _sut.AreAttributeCombinationBaseCombination(attrbs, product)
-                .Should().BeTrue();
-            _sut.AreAttributesValidProductChoice(attrbs, product)
+            _sut.EnsureCombinationContainsAllAttributes(productCombination, product);
+            _sut.EnsureCombinationContainsValidOptions(productCombination, product)
                 .Should().BeTrue();
         }
     }
